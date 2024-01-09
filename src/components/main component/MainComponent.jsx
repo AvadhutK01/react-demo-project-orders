@@ -12,7 +12,8 @@ const MainComponent = () => {
             Table3: {},
         };
     });
-
+    const [editMode, setEditMode] = useState(false);
+    const [editData, setEditData] = useState(null);
     const addOrder = (Id, Amount, Dish, Table) => {
         setOrders((prevOrders) => {
             const newOrders = {
@@ -40,6 +41,27 @@ const MainComponent = () => {
         });
     };
 
+    const editOrder = (Id, Table) => {
+        setEditMode(true);
+        setEditData({ Id, ...Orders[Table][Id], Table });
+        deleteOrder(Id, Table);
+    };
+
+    const updateOrder = (Id, Table, Amount, Dish) => {
+        setOrders((prevOrders) => {
+            const editedOrders = {
+                ...prevOrders,
+                [Table]: {
+                    ...prevOrders[Table],
+                    [Id]: { Amount, Dish },
+                },
+            };
+            localStorage.setItem('orders', JSON.stringify(editedOrders));
+            return editedOrders;
+        });
+        setEditMode(false);
+    }
+
     useEffect(() => {
         const storedOrders = localStorage.getItem('orders');
         if (storedOrders) {
@@ -49,8 +71,8 @@ const MainComponent = () => {
 
     return (
         <div className='div-main'>
-            <InputComponent addOrder={addOrder} />
-            <ListComponent Orders={Orders} deleteOrder={deleteOrder} />
+            <InputComponent addOrder={addOrder} updateOrder={updateOrder} editData={editData} editMode={editMode} />
+            <ListComponent Orders={Orders} deleteOrder={deleteOrder} editOrder={editOrder} />
         </div>
     );
 };
