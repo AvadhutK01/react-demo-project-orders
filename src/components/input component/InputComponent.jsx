@@ -1,8 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const InputComponent = () => {
+const InputComponent = (props) => {
+    let [Id, setId] = useState('');
+    let [Amount, setAmount] = useState('')
+    let [Dish, setDish] = useState('');
+    let [Table, setTable] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        props.addOrder(Id, Amount, Dish, Table);
+    }
     return (
-        <div>InputComponent</div>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <input type='text' placeholder='Enter Unique order Id' value={Id} onChange={(e) => setId(e.target.value)} />
+                <input type='number' placeholder='Enter Amount' value={Amount} onChange={(e) => setAmount(e.target.value)} />
+                <select value={Dish} onChange={(e) => setDish(e.target.value)}>
+                    <option value="">Choose dish</option>
+                    <option value="Chicken Biryani">Biryani</option>
+                    <option value="Mutton Biryani">Mutton Biryani</option>
+                    <option value="Chicken Tikka Masala">Chicken Tikka Masala</option>
+                </select>
+                <select value={Table} onChange={(e) => setTable(e.target.value)}>
+                    <option value="">Choose table</option>
+                    <option value="Table 1">Table 1</option>
+                    <option value="Table 2">Table 2</option>
+                    <option value="Table 3">Table 3</option>
+                </select>
+                <button type='submit'>Add</button>
+            </div>
+        </form>
     )
 }
 
