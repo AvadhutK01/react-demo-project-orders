@@ -14,6 +14,7 @@ const MainComponent = () => {
     });
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState(null);
+
     const addOrder = (Id, Amount, Dish, Table) => {
         setOrders((prevOrders) => {
             const newOrders = {
@@ -23,7 +24,6 @@ const MainComponent = () => {
                     [Id]: { Amount, Dish },
                 },
             };
-            localStorage.setItem('orders', JSON.stringify(newOrders));
             return newOrders;
         });
     };
@@ -36,7 +36,6 @@ const MainComponent = () => {
                 ...prevOrders,
                 [Table]: newObj,
             };
-            localStorage.setItem('orders', JSON.stringify(newOrders));
             return newOrders;
         });
     };
@@ -56,18 +55,14 @@ const MainComponent = () => {
                     [Id]: { Amount, Dish },
                 },
             };
-            localStorage.setItem('orders', JSON.stringify(editedOrders));
             return editedOrders;
         });
         setEditMode(false);
     }
 
     useEffect(() => {
-        const storedOrders = localStorage.getItem('orders');
-        if (storedOrders) {
-            setOrders(JSON.parse(storedOrders));
-        }
-    }, []);
+        localStorage.setItem('orders', JSON.stringify(Orders));
+    }, [Orders]);
 
     return (
         <div className='div-main'>
