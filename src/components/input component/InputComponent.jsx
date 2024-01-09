@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import './InputComponent.css'
 
 const InputComponent = (props) => {
+
     let [Id, setId] = useState('');
     let [Amount, setAmount] = useState('')
     let [Dish, setDish] = useState('');
     let [Table, setTable] = useState('');
+
     useEffect(() => {
         if (props.editMode && props.editData) {
             const { Id, Amount, Dish, Table } = props.editData;
@@ -28,6 +30,7 @@ const InputComponent = (props) => {
         setDish("");
         setTable("");
     }
+
     return (
         <form onSubmit={handleSubmit}>
             <div className='form-input'>

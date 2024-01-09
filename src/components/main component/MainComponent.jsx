@@ -4,6 +4,7 @@ import ListComponent from '../list component/ListComponent';
 import './MainComponent.css'
 
 const MainComponent = () => {
+
     const [Orders, setOrders] = useState(() => {
         const storedOrders = localStorage.getItem('orders');
         return storedOrders ? JSON.parse(storedOrders) : {

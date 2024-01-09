@@ -2,6 +2,7 @@ import React from 'react';
 import './ListComponent.css';
 
 const ListComponent = (props) => {
+
     const { Orders } = props;
 
     const renderTableOrders = (table) => {
