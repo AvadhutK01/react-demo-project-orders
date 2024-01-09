@@ -1,65 +1,57 @@
-import React, { useState } from 'react'
-import InputComponent from '../input component/InputComponent'
-import ListComponent from '../list component/ListComponent'
+import React, { useState, useEffect } from 'react';
+import InputComponent from '../input component/InputComponent';
+import ListComponent from '../list component/ListComponent';
 
 const MainComponent = () => {
-    let [Orders, setOrders] = useState([{
-        Table1: {
-
-        },
-        Table2: {
-
-        },
-        Table3: {
-
-        }
-    }])
+    const [Orders, setOrders] = useState(() => {
+        const storedOrders = localStorage.getItem('orders');
+        return storedOrders ? JSON.parse(storedOrders) : {
+            Table1: {},
+            Table2: {},
+            Table3: {},
+        };
+    });
 
     const addOrder = (Id, Amount, Dish, Table) => {
-        if (Table === 'Table 1') {
-            setOrders((prevOrders) => {
-                return ({
-                    Table1: {
-                        ...prevOrders.Table1,
-                        [Id]: { Amount: Amount, Dish: Dish }
-                    },
-                    Table2: { ...prevOrders.Table2 },
-                    Table3: { ...prevOrders.Table3 }
-                })
-            })
+        setOrders((prevOrders) => {
+            const newOrders = {
+                ...prevOrders,
+                [Table]: {
+                    ...prevOrders[Table],
+                    [Id]: { Amount, Dish },
+                },
+            };
+            localStorage.setItem('orders', JSON.stringify(newOrders));
+            return newOrders;
+        });
+    };
+
+    const deleteOrder = (Id, Table) => {
+        setOrders((prevOrders) => {
+            const newObj = { ...prevOrders[Table] };
+            delete newObj[Id];
+            const newOrders = {
+                ...prevOrders,
+                [Table]: newObj,
+            };
+            localStorage.setItem('orders', JSON.stringify(newOrders));
+            return newOrders;
+        });
+    };
+
+    useEffect(() => {
+        const storedOrders = localStorage.getItem('orders');
+        if (storedOrders) {
+            setOrders(JSON.parse(storedOrders));
         }
-        else if (Table === 'Table 2') {
-            setOrders((prevOrders) => {
-                return ({
-                    Table1: { ...prevOrders.Table1 },
-                    Table2: {
-                        ...prevOrders.Table2,
-                        [Id]: { Amount: Amount, Dish: Dish }
-                    },
-                    Table3: { ...prevOrders.Table3 }
-                })
-            })
-        }
-        else {
-            setOrders((prevOrders) => {
-                return ({
-                    Table1: { ...prevOrders.Table1 },
-                    Table2: { ...prevOrders.Table2 },
-                    Table3: {
-                        ...prevOrders.Table2,
-                        [Id]: { Amount: Amount, Dish: Dish }
-                    }
-                })
-            })
-        }
-    }
+    }, []);
 
     return (
         <div>
             <InputComponent addOrder={addOrder} />
-            <ListComponent Orders={Orders} />
+            <ListComponent Orders={Orders} deleteOrder={deleteOrder} />
         </div>
-    )
-}
+    );
+};
 
-export default MainComponent
+export default MainComponent;
