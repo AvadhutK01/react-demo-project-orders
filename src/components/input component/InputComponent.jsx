@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './InputComponent.css'
 
 const InputComponent = (props) => {
     let [Id, setId] = useState('');
@@ -16,7 +17,7 @@ const InputComponent = (props) => {
     }
     return (
         <form onSubmit={handleSubmit}>
-            <div>
+            <div className='form-input'>
                 <input type='text' required placeholder='Enter Unique order Id' value={Id} onChange={(e) => setId(e.target.value)} />
                 <input type='number' required placeholder='Enter Amount' value={Amount} onChange={(e) => setAmount(e.target.value)} />
                 <select value={Dish} required onChange={(e) => setDish(e.target.value)}>

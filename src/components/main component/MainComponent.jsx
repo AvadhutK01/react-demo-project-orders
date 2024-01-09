@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import InputComponent from '../input component/InputComponent';
 import ListComponent from '../list component/ListComponent';
+import './MainComponent.css'
 
 const MainComponent = () => {
     const [Orders, setOrders] = useState(() => {
@@ -47,7 +48,7 @@ const MainComponent = () => {
     }, []);
 
     return (
-        <div>
+        <div className='div-main'>
             <InputComponent addOrder={addOrder} />
             <ListComponent Orders={Orders} deleteOrder={deleteOrder} />
         </div>

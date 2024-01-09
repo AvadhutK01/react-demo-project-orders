@@ -1,4 +1,5 @@
 import React from 'react';
+import './ListComponent.css';
 
 const ListComponent = (props) => {
     const { Orders } = props;
@@ -11,7 +12,7 @@ const ListComponent = (props) => {
                 {Object.entries(tableOrders).map(([orderId, order]) => (
                     <li key={orderId}>
                         {`Order ID: ${orderId}, Amount: ${order.Amount}, Dish: ${order.Dish}`}
-                        <button onClick={() => props.deleteOrder(orderId, table)}>Delete Order</button>
+                        <button className='button-danger' onClick={() => props.deleteOrder(orderId, table)}>Delete Order</button>
                     </li>
                 ))}
             </ul>
@@ -20,16 +21,16 @@ const ListComponent = (props) => {
 
     return (
         <>
-            <div>
-                Table one:
+            <div className='div-list'>
+                <p>Table one:</p>
                 {renderTableOrders('Table1')}
             </div>
-            <div>
-                Table Two:
+            <div className='div-list'>
+                <p>Table Two:</p>
                 {renderTableOrders('Table2')}
             </div>
-            <div>
-                Table three:
+            <div className='div-list'>
+                <p>Table three:</p>
                 {renderTableOrders('Table3')}
             </div>
         </>
